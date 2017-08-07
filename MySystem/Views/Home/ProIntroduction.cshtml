@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "ProIntroduction";
+    var F = @Html.F();
+}
+
+@section body{
+    
+    <h1 style="width:100%;text-align:center">添加专业</h1></br>
+
+    @( F.Grid()
+        .EnableCheckBoxSelect(true)
+        .CssStyle("margin: 0 auto")
+        .RegionPosition(Position.Center)
+        .Width(432)
+        .ShowHeader(false)
+        .ShowBorder(true)
+        .Height(250)
+        .ID("Grid1")
+        .Columns(ViewBag.Grid1Columns)
+        .DataSource(ViewBag.table)
+    )
+
+}
+
+@section script {
+    @*<script>
+        function renderAction3(value, params) {
+            return '<a class="action-btn mybtn3" href="javascript:;"><i class="ui-icon f-grid-cell-iconfont f-icon-refresh"></i></a>';
+        }
+
+         F.ready(function () {
+
+            var grid1 = F.ui.Grid1;
+            grid1.el.on('click', 'a.action-btn', function (event) {
+                var cnode = $(this);
+
+                F.confirm({
+                    message: '你确定要这么做吗？',
+                    target: '_top',
+                    ok: function () {
+                        var rowData = grid1.getRowData(cnode.closest('.f-grid-row'));
+                        var column = grid1.getColumn(cnode.parents('.f-grid-cell'));
+
+                        // 触发后台事件
+                        F.doPostBack('@Url.Action("Grid1_RowCommand")', {
+                            rowId: rowData.id,
+                            rowText: rowData.text,
+                            rowIndex: rowData.index,
+                            columnIndex: column.index
+                        });
+
+                    }
+                });
+            });
+
+        });
+    </script>*@    
+}
+

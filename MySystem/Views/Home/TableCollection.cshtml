@@ -1,0 +1,345 @@
+﻿@{
+    ViewBag.Title = ViewBag.TableName;
+    var F = @Html.F();
+}
+
+@section head {
+    
+    <link type="text/css" rel="stylesheet" href="~/res/css/liang.css" />
+
+}
+
+@section body {
+    
+    @(
+        F.Grid()
+            .ShowHeader(false)
+            .ShowBorder(false)
+            .IsViewPort(true)
+            .ID("Grid1")
+            .Layout(LayoutType.Fit)
+            .AllowPaging(true)
+            .AllowCellEditing(true)
+            .PageSize(30)
+            .Columns(ViewBag.Grid1Columns)
+            .DataSource(ViewBag.table)
+            .Toolbars(
+                F.Toolbar()
+                    .Position(ToolbarPosition.Top)
+                    .CssStyle("border: none")
+                    .Layout(LayoutType.Fit)
+                    .Items(
+                        F.SimpleForm()
+                            .ID("GridForm")
+                            .BodyPadding(5)
+                            .ShowBorder(false)
+                            .ShowHeader(false)
+                            .Items(
+                                F.Panel()
+                                    .ShowBorder(false)
+                                    .ShowHeader(false)
+                                    .Layout(LayoutType.HBox)
+                                    .Items(
+                                        F.DropDownList()
+                                            .ID("TableList")
+                                            .CssStyle("padding-right: 10px")
+                                            .LabelWidth(70)
+                                            .BoxFlex(1)
+                                            .Label("当前表")
+                                            .Readonly(true)
+                                            .Items(
+                                                F.ListItem()
+                                                    .Text(ViewBag.TableName)
+                                                    .Value("value1")
+                                            ),
+                                        F.DropDownList()
+                                            .ID("SchoolList")
+                                            .CssStyle("padding-right: 10px")
+                                            .LabelWidth(70)
+                                            .BoxFlex(1)
+                                            .Label("当前学校")
+                                            .Readonly(true)
+                                            .Items(
+                                                F.ListItem()
+                                                    .Text("可选项1")
+                                                    .Value("value1")
+                                            ),
+                                        F.DropDownList()
+                                            .ID("MajorList")
+                                            .LabelWidth(70)
+                                            .BoxFlex(1)
+                                            .Label("当前专业")
+                                            .DataTextField(ViewBag.BindMajorField + "Text")
+                                            .DataValueField(ViewBag.BindMajorField + "Value")
+                                            .SelectedValue(ViewBag.MajorId)
+                                            .Readonly(true)
+                                            .DataSource(ViewBag.MajorDropDownListDataSource)
+                                    )
+                            )
+                    ),
+                F.Toolbar()
+                    .CssStyle(ViewBag.TableTbMidStele)
+                    .Position(ToolbarPosition.Top)
+                    .Layout(LayoutType.Fit)
+                    .ID("TableTbMid")
+                    .Items(
+                        F.Panel()
+                            .CssStyle("padding-left: 5px")
+                            .ShowBorder(false)
+                            .ShowHeader(false)
+                            .Layout(LayoutType.HBox)
+                            .Items(
+                                F.Panel()
+                                    .ShowBorder(false)
+                                    .ShowHeader(false)
+                                    .Width(550)
+                                    .Layout(LayoutType.HBox)
+                                    .Items(
+                                        F.DropDownList()
+                                            .ID("QueryField")
+                                            .LabelWidth(70)
+                                            .MarginRight(10)
+                                            .Width(215)
+                                            .Label("查询字段")
+                                            .DataTextField(ViewBag.BindFieldField + "Text")
+                                            .DataValueField(ViewBag.BindFieldField + "Value")
+                                            .DataSource(ViewBag.FieldDropDownListDataSource),
+                                        F.TextBox()
+                                            .Label("值")
+                                            .ID("QueryValue")
+                                            .Width(175)
+                                            .MarginRight(10)
+                                            .LabelWidth(30),
+                                        F.Button()
+                                            .IconFont(IconFont.Search)
+                                            .MarginRight(10)
+                                            .ValidateForms("GridForm")
+                                            .OnClick(Url.Action("BtnQuery_Click"),
+                                                new Parameter("QueryField", "F.ui.QueryField.getValue()"),
+                                                new Parameter("QueryValue", "F.ui.QueryValue.getValue()"))
+                                            .ValidateTarget(Target.Top)
+                                            .Text("查询")
+                                    //F.Button()
+                                    //    .IconFont(IconFont.Plus)
+                                    //    .OnClick(Url.Action("addData_Click"))
+                                    //    .Text("增加")
+                                    ),
+                                F.Panel()
+                                    .ShowBorder(false)
+                                    .ShowHeader(false)
+                                    .BoxFlex(1),
+                                F.Panel()
+                                    .ShowBorder(false)
+                                    .ShowHeader(false)
+                                    .Width(230)
+                                    .Items(
+                                        F.Button()
+                                            .IconFont(IconFont.Print)
+                                            .MarginRight(10)
+                                            .OnClientClick("window.open('" + ViewBag.PrintPage + "','_blank');")
+                                            .Text("打印"),
+                                        F.Button()
+                                            .IconFont(IconFont.ArrowCircleOLeft)
+                                            .MarginRight(10)
+                                            .ID("ImportBtn")
+                                            .OnClick(Url.Action("DataImport_Click"))
+                                            .Text("导入"),
+                                        F.Button()
+                                            .IconFont(IconFont.Download)
+                                            .Text("导出")
+                                    )
+                            )
+                    ),
+                F.Toolbar()
+                    .CssStyle("border-top: none;border-left: none;border-right: none")
+                    .Hidden(ViewBag.noTableDemo)
+                    .Position(ToolbarPosition.Top)
+                    .Items(
+                        F.Label()
+                            .BoxFlex(1)
+                            .CssStyle("padding-left: 5px;color: red")
+                            .Text(ViewBag.TableDemo)
+                    )
+            )
+            .PageItems(
+                F.ToolbarSeparator(),
+                F.Button()
+                    .IconFont(IconFont.Plus)
+                    .Text("新增数据")
+                    .OnClick(Url.Action("addData_Click"),
+                        new Parameter("TableMsg",ViewBag.TableMajorMsg)),
+                F.ToolbarSeparator(),
+                F.Button()
+                    .Text("保存数据")
+                    .ID("btnSaveData")
+                    .OnClick(Url.Action("btnSaveData_Click"), "Grid1",
+                        new Parameter("TableMsg", ViewBag.TableMajorMsg))
+            )
+    )
+
+    @*数据导入窗口*@
+    @(F.Window()
+        .Hidden(true)
+        .AutoScroll(true)
+        .IsModal(true)
+        .Target(Target.Parent)
+        .WindowPosition(WindowPosition.GoldenSection)
+        .Width(800)
+        .Height(600)
+        .EnableResize(true)
+        .EnableCollapse(false)
+        .Title("增加新数据")
+        .ID("Window2")
+        .ContentEl("#DateImportContent")
+        .Toolbars(
+            F.Toolbar()
+                .ToolbarAlign(ToolbarAlign.Right)
+                .Position(ToolbarPosition.Bottom)
+                .Items(
+                    F.Button()
+                        .Text("提交至数据库")
+                        .OnClick(Url.Action("")),
+                    F.Button()
+                        .Text("关闭")
+                        .OnClick(Url.Action("BtnCloseDataImportWindow_Click"))
+                )
+        )
+    )
+    @*“导入”窗口内容*@
+    <div id="DateImportContent">
+        @(F.Grid()
+            .ShowHeader(false)
+            .ShowBorder(false)
+            .ID("Grid2")
+            .Layout(LayoutType.Fit)
+            .AllowPaging(true)
+            .AllowCellEditing(true)
+            .PageSize(30)
+            .Toolbars(
+                F.Toolbar()
+                    .Position(ToolbarPosition.Top)
+                    .CssStyle("border: none")
+                    .Layout(LayoutType.Fit)
+                    .Items(
+                        F.SimpleForm()
+                            .ID("GridForm")
+                            .BodyPadding(5)
+                            .ShowBorder(false)
+                            .ShowHeader(false)
+                            .Items(
+                                F.Panel()
+                                    .ShowBorder(false)
+                                    .ShowHeader(false)
+                                    .Layout(LayoutType.HBox)
+                                    .Items(
+                                        F.DropDownList()
+                                            .ID("TableList")
+                                            .CssStyle("padding-right: 10px")
+                                            .LabelWidth(70)
+                                            .BoxFlex(1)
+                                            .Label("当前表")
+                                            .Readonly(true)
+                                            .Items(
+                                                F.ListItem()
+                                                    .Text(ViewBag.TableName)
+                                                    .Value("value1")
+                                            ),
+                                        F.DropDownList()
+                                            .ID("SchoolList")
+                                            .CssStyle("padding-right: 10px")
+                                            .LabelWidth(70)
+                                            .BoxFlex(1)
+                                            .Label("当前学校")
+                                            .Readonly(true)
+                                            .Items(
+                                                F.ListItem()
+                                                    .Text("可选项1")
+                                                    .Value("value1")
+                                            ),
+                                        F.DropDownList()
+                                            .ID("MajorList")
+                                            .LabelWidth(70)
+                                            .BoxFlex(1)
+                                            .Label("当前专业")
+                                            .DataTextField(ViewBag.BindMajorField + "Text")
+                                            .DataValueField(ViewBag.BindMajorField + "Value")
+                                            .SelectedValue(ViewBag.MajorId)
+                                            .Readonly(true)
+                                            .DataSource(ViewBag.MajorDropDownListDataSource)
+                                    )
+                            )
+                  ),
+                 F.Toolbar()
+                    .CssStyle(ViewBag.TableTbMidStele)
+                    .Items(
+                        F.FileUpload()
+                            .ID("Import")
+                            .CssStyle("padding-left: 5px")
+                            .EmptyText("文件地址")
+                            .LabelWidth(100)
+                            .Label("选择导入文件")                    
+                            .ButtonText("上传文件模板"),                       
+                        F.Button()
+                            .ID("UploadBtn")
+                            .Text("上传&校验")
+                            .OnClick(Url.Action(""))
+
+                     )
+               )
+        )
+    </div>
+
+    
+    @*“增加新数据”的窗口内容*@
+    <div id="AddNewDataContent">
+        @(F.Form()
+            .ID("AddDataForm")
+            .BodyPadding("5 5 0 5")
+            .AutoScroll(true)
+            .LabelAlign(LabelAlign.Left)
+            .LabelWidth(80)
+            .ShowBorder(false)
+            .ShowHeader(false)
+            .Items((ControlBase[])ViewBag.AddDataFormItems)
+        )
+    </div>
+
+    @(F.Window()
+        .Hidden(true)
+        .BodyPadding(10)
+        .AutoScroll(true)
+        .IsModal(true)
+        .Target(Target.Parent)
+        .WindowPosition(WindowPosition.GoldenSection)
+        .Width(800)
+        .Height(500)
+        .EnableResize(true)
+        .EnableCollapse(false)
+        .Title("增加新数据")
+        .ID("Window1")
+        .ContentEl("#AddNewDataContent")
+        .Toolbars(
+            F.Toolbar()
+                .ToolbarAlign(ToolbarAlign.Right)
+                .Position(ToolbarPosition.Bottom)
+                .Items(
+                    F.Button()
+                        .Text("添加")
+                        .IconFont(IconFont.Plus)
+                        .OnClick(Url.Action("btnAddData_Click"),"AddDataForm")
+                        .ID("btnChangeText"),
+                    F.Button()
+                        .Text("关闭")
+                        .OnClick(Url.Action("CloseWindow1"))
+                        .ID("btnClose")
+                )
+        )
+    )
+
+}
+
+@section script{
+    <script>
+        
+    </script>    
+}

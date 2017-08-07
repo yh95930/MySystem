@@ -1,0 +1,383 @@
+﻿@{
+    ViewBag.Title = "重庆普通高校专业信息采集系统";
+    var F = @Html.F();
+}
+
+@section head {
+
+    <link type="text/css" rel="stylesheet" href="~/res/css/default.css" />
+    <link type="text/css" rel="stylesheet" href="~/res/css/liang.css"/>
+
+}
+
+@section body {
+
+    <div id="header" class="ui-widget-header f-mainheader">
+        <table>
+            <tr>
+                <td>
+                    @(F.Button()
+                        .OnClientClick("window.open('../','_parent');")
+                        .EnableDefaultCorner(false)
+                        .EnableDefaultState(false)
+                        .IconFont(IconFont.Home)
+                        .IconAlign(IconAlign.Top)
+                        .ToolTip("刷新首页")
+                        .ID("btnHomePage")
+                        .CssClass("icononlyaction")
+                    )
+                    <a class="logo" href="@Url.Content("~/")" title="刷新首页">
+                        重庆市属高校本科专业评估信息采集系统
+                    </a>
+
+                    @*<h1>
+                        @(F.Button()
+                            .OnClientClick("window.open('../','_parent');")
+                            .EnableDefaultCorner(false)
+                            .EnableDefaultState(false)
+                            .IconFont(IconFont.Home)
+                            .IconAlign(IconAlign.Left)
+                            .ToolTip("刷新首页")
+                            .ID("btnHomePage")
+                            .Text("重庆市属高校本科专业评估信息采集系统")
+                        )
+                    </h1>*@
+                    
+                    @*<a class="logo" href="@Url.Content("~/")" title="首页">
+                        重庆市属高校本科专业评估信息采集系统
+                    </a>*@
+                </td>
+                @*<td style="text-align: right;">
+
+                    @(F.Button()
+                        .EnableDefaultCorner(false)
+                        .EnableDefaultState(false)
+                        .IconFont(IconFont.Bank)
+                        .IconAlign(IconAlign.Top)
+                        .Text("主题仓库")
+                        .ID("btnThemeSelect")
+                        .CssClass("icontopaction themes")
+                        .Listener("click", "onThemeSelectClick")
+                    )
+
+                    @(F.Button()
+                        .EnableDefaultCorner(false)
+                        .EnableDefaultState(false)
+                        .IconAlign(IconAlign.Left)
+                        .IconUrl(Url.Content("~/res/images/my_face_80.jpg"))
+                        .Text("三生石上")
+                        .CssClass("userpicaction")
+                        .Menu(F.Menu()
+                            .Items(
+                                F.MenuButton()
+                                    .IconFont(IconFont.User)
+                                    .Text("个人信息")
+                                    .Listener("click", "F.alert('尚未实现');"),
+                                F.MenuSeparator(),
+                                F.MenuButton()
+                                    .IconFont(IconFont.SignOut)
+                                    .Text("安全退出")
+                                    .Listener("click", "F.alert('尚未实现');")
+                            )
+                        )
+                    )
+                </td>*@
+            </tr>
+        </table>
+    </div>
+
+    <div id="maincontent">
+        <h2>FineUIMvc</h2>
+        基于 jQuery 的专业 ASP.NET MVC 控件库
+
+        <br />
+        <h2>支持的浏览器</h2>
+        Chrome、Firefox、Safari、Edge、IE8.0+
+
+        <br />
+        <h2>授权协议</h2>
+        商业授权
+
+        <br />
+        <h2>相关链接</h2>
+        <ul class="list">
+            <li>
+                首页：<a target="_blank" href="http://fineui.com/mvc/">http://fineui.com/mvc/</a>
+            </li>
+            <li>
+                示例：<a target="_blank" href="http://fineui.com/demo_mvc/">http://fineui.com/demo_mvc/</a>
+            </li>
+            <li>
+                更新：<a target="_blank" href="http://fineui.com/version_mvc/">http://fineui.com/version_mvc/</a>
+            </li>
+            <li>
+                论坛：<a target="_blank" href="http://fineui.com/bbs/">http://fineui.com/bbs/</a>
+            </li>
+        </ul>
+
+    </div>
+
+    @(F.RegionPanel()
+        .ID("RegionPanel1")
+        .ShowBorder(false)
+        .IsViewPort(true)
+        .Regions(
+            F.Region()
+                .ID("Region1")
+                .ShowBorder(false)
+                .ShowHeader(false)
+                .RegionPosition(Position.Top)
+                .Layout(LayoutType.Fit)
+                .ContentEl("#header"),
+            F.Region()
+                .ID("Region2")
+                .AutoScroll(true)
+                .RegionSplit(true)
+                .Width(300)
+                .ShowHeader(true)
+                .Title("用户功能菜单")
+                .EnableCollapse(true)
+                .RegionPosition(Position.Left)
+                .Items(
+                    F.Button()
+                        .CssClass("f-tree-cell-inner btn-left")
+                        .IconFont(IconFont.Plus)
+                        .OnClick(Url.Action("BtnAddMajorWindow_Click"))
+                        .Text("添加专业"),
+                    F.Button()
+                        .CssClass("f-tree-cell-inner btn-left")
+                        .IconFont(IconFont.Edit)
+                        .OnClick(Url.Action("BtnOpenChangePwd_Click"))
+                        .Text("修改用户密码"),
+                    F.Tree()
+                        .Listener("nodeclick", "onTreeMenuNodeClick")
+                        .EnableSingleClickExpand(true)
+                        .ShowBorder(false)
+                        .ShowHeader(false)
+                        .ID("treeMenu")
+                        .Nodes((TreeNode[])ViewBag.Tree1Nodes)
+                ),
+            F.Region()
+                .ID("mainRegion")
+                .ShowHeader(false)
+                .Layout(LayoutType.Fit)
+                .RegionPosition(Position.Center)
+                .Items(
+                    F.TabStrip()
+                        .ID("mainTabStrip")
+                        .EnableTabCloseMenu(true)
+                        .Layout(LayoutType.Fit)
+                        .ShowBorder(false)
+                        .Tabs(
+                            F.Tab()
+                                .ID("Tab1")
+                                .Title("首页")
+                                .BodyPadding(10)
+                                .Layout(LayoutType.Fit)
+                                .Icon(Icon.House)
+                                .ContentEl("#maincontent")
+                        )
+                )
+        )
+    )
+
+    @*窗体定义区域*@
+    @*主题仓库弹窗*@
+    @(F.Window()
+        .BodyPadding(10)
+        .AutoScroll(true)
+        .Hidden(true)
+        .EnableResize(true)
+        .EnableMaximize(true)
+        .EnableClose(true)
+        .Height(600)
+        .Width(1020)
+        .IsModal(true)
+        .ClearIFrameAfterClose(false)
+        .IFrameUrl(Url.Content("~/Home/Themes"))
+        .EnableIFrame(true)
+        .Title("主题仓库")
+        .ID("windowThemeRoller")
+    )
+
+    @*“添加专业”窗体定义*@
+    @(F.Window()
+        .Hidden(true)
+        .EnableResize(true)
+        .EnableMaximize(false)
+        .EnableClose(true)
+        .Height(330)
+        .Width(440)
+        .IsModal(true)
+        .IconFont(IconFont.Plus)
+        .Title("添加专业")
+        .ID("AddMajowWindow")
+        .ContentEl("#AddMajorContent")
+        .Toolbars(
+            F.Toolbar()
+                .Position(ToolbarPosition.Bottom)
+                .Layout(LayoutType.HBox)
+                .Items(
+                    F.Label()
+                        .Text("注：正在填报的专业不在此列"),
+                    F.Label()
+                        .BoxFlex(1),
+                    F.Button()
+                        .Text("关闭")
+                        .OnClick(Url.Action("BtnCloseAddMajorWindow_Click"))
+                )
+        )
+    )
+
+    @*“添加专业”窗体内容*@
+    <div id="AddMajorContent">
+        @(F.Grid()
+                .Layout(LayoutType.HBox)
+                .ShowHeader(false)
+                .ShowBorder(false)
+                .AutoScroll(true)
+                .ID("AddMajorGrid")
+                .DataIDField("专业ID")
+                .DataTextField("专业名称")
+                .Columns(ViewBag.AddMajorGridColumns)
+                .DataSource(ViewBag.AddMajorTable)
+        )
+        @*<div style="padding: 5px">注：正在填报的专业不在此列</div>*@
+    </div>
+
+
+    @*“修改用户密码”窗体定义*@
+    @(F.Window()
+        .Hidden(true)
+        .EnableResize(false)
+        .EnableMaximize(false)
+        .EnableClose(true)
+        .Height(240)
+        .Width(450)
+        .IsModal(true)
+        .IconFont(IconFont.Edit)
+        .Title("修改用户密码")
+        .ID("ChangePwdWindow")
+        .ContentEl("#ChangePwdContent")
+        .Toolbars(
+            F.Toolbar()
+                .ToolbarAlign(ToolbarAlign.Right)
+                .Position(ToolbarPosition.Bottom)
+                .Items(
+                     F.Button()
+                        .Text("修改密码")
+                        .ValidateForms("ChangePwdForm")
+                        .OnClick(Url.Action("btnChangePwd_Click"),
+                            new Parameter("FirstPwd", "F.ui.FirstPwd.getValue()"),
+                            new Parameter("SecondPwd", "F.ui.SecondPwd.getValue()"))
+                        .ValidateTarget(Target.Top)
+                        .ID("btnChangeText"),
+                     F.Button()
+                        .Text("关闭")
+                        .OnClick(Url.Action("BtnCloseChangePwd_Click"))
+                )
+        )
+    )
+
+    @*“修改用户密码”窗体内容*@
+    <div id="ChangePwdContent">
+        @(F.SimpleForm()
+                .MarginTop(10)
+                .ID("ChangePwdForm")
+                .BodyPadding(20)
+                .ShowBorder(false)
+                .ShowHeader(false)
+                .Items(
+                    F.Label()
+                        .CssStyle("margin-bottom: 10px")
+                        .Label("学校国际码")
+                        .Text(ViewBag.SchoolID),
+                    F.TextBox()
+                        .CssStyle("margin-bottom: 10px")
+                        .ID("FirstPwd")
+                        .Required(true)
+                        .NextFocusControl("SecondPwd")
+                        .TextMode(TextMode.Password)
+                        .Label("系统新密码"),
+                    F.TextBox()
+                        .CssStyle("margin-bottom: 10px")
+                        .ID("SecondPwd")
+                        .Required(true)
+                        .Label("确认密码")
+                        .TextMode(TextMode.Password)
+                        .NextFocusControl("btnChangeText")
+                )
+        )
+    </div>
+
+}
+
+@section script {
+
+    <script>
+
+        // 点击主题仓库
+        function onThemeSelectClick(event) {
+            F.ui.windowThemeRoller.show();
+        }
+
+        function renderAction3(value, params) {
+            return '<a class="action-btn mybtn3" href="javascript:;"><i class="ui-icon f-grid-cell-iconfont f-icon-plus"></i></a>';
+        }
+
+        // 删除节点被点击
+        function onTreeMenuNodeClick(event, nodeId) {
+            var tree = this;
+
+            var nodeData = tree.getNodeData(nodeId);
+
+            // 节点为删除时，先弹出确认提示框
+            if (String(nodeId).indexOf("Delete") > 0) {
+                F.confirm({
+                    message: '确定' + nodeData.text + '?',
+                    messageIcon: 'question',
+                    ok: function () {
+                        // 触发后台事件
+                        F.doPostBack('@Url.Action("TreeMenu_DelNodeClick")', { nodeId: nodeId, nodeText: nodeData.text });
+                    }
+                });
+            }
+        }
+
+        // 页面控件初始化完毕后，会调用用户自定义的onReady函数
+        F.ready(function () {
+
+            // 初始化主框架中的树和选项卡互动，以及地址栏的更新
+            // treeMenu： 主框架中的树控件实例，或者内嵌树控件的手风琴控件实例
+            // mainTabStrip： 选项卡实例
+            // updateHash: 切换Tab时，是否更新地址栏Hash值（默认值：true）
+            // refreshWhenExist： 添加选项卡时，如果选项卡已经存在，是否刷新内部IFrame（默认值：false）
+            // refreshWhenTabChange: 切换选项卡时，是否刷新内部IFrame（默认值：false）
+            // maxTabCount: 最大允许打开的选项卡数量
+            // maxTabMessage: 超过最大允许打开选项卡数量时的提示信息
+            F.initTreeTabStrip(F.ui.treeMenu, F.ui.mainTabStrip, {
+                maxTabCount: 10,
+                maxTabMessage: '请先关闭一些选项卡（最多允许打开 10 个）！'
+            });
+
+            var AddMajorGrid = F.ui.AddMajorGrid;
+            AddMajorGrid.el.on('click', 'a.action-btn', function (event) {
+                var cnode = $(this);
+                var rowData = AddMajorGrid.getRowData(cnode.closest('.f-grid-row'));
+                var column = AddMajorGrid.getColumn(cnode.parents('.f-grid-cell'));
+
+                F.confirm({
+                    message: '确定添加' + rowData.text + '专业？',
+                    target: '_top',
+                    ok: function () {
+                        // 触发后台事件
+                        F.doPostBack('@Url.Action("btnAddMajor_RowCommand")', { MajorId: rowData.id, MajorName: rowData.text });
+
+                        //setTimeout(function () { window.location.href = "/Home/Index" }, 2000);
+                    }
+                });
+            });
+        });
+    </script>
+ 
+}

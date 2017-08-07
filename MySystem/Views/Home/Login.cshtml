@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Login";
+    var F = @Html.F();
+}
+
+@section head {
+
+    <link type="text/css" rel="stylesheet" href="~/res/css/liang.css" />
+
+}
+
+@section body {
+
+    @*<div>
+        用户名：admin
+        <br>
+        密码：admin
+        <br>
+        <br>
+        <br>
+        注意：在任意输入框内按回车键都会触发表单的提交（相当于点击【登陆】按钮）。
+    </div>*@
+
+    @(F.Window()
+        .Width(520)
+        .Height(240)
+        .EnableDrag(false)
+        .WindowPosition(WindowPosition.GoldenSection)
+        .EnableClose(false)
+        .IsModal(false)
+        .IconFont(IconFont.SignIn)
+        .Title("欢迎使用重庆市普通高校专业信息采集系统")
+        .ID("LoginWindow")
+        .Items(
+            F.SimpleForm()
+                .CssStyle("float: left")
+                .ShowHeader(false)
+                .LabelWidth(100)
+                .Width(320)
+                .MarginTop(30)
+                .MarginLeft(20)
+                .BodyPadding(10)
+                .ShowBorder(false)
+                .ID("LoginSimpleForm")
+                .Items(
+                    F.TextBox()
+                        .Required(true)
+                        .MarginBottom(10)
+                        .Label("学校国标码")
+                        .ID("tbxUserName"),
+                    F.TextBox()
+                        .Required(true)
+                        .MarginBottom(10)
+                        //.TextMode(TextMode.Password)
+                        .Label("系统密码")
+                        .ID("tbxPassword"),
+                    F.Panel()
+                        .BoxConfigAlign(BoxLayoutAlign.Stretch)
+                        .Layout(LayoutType.HBox)
+                        .ShowHeader(false)
+                        .ShowBorder(false)
+                        .Items(
+                            F.TextBox()
+                             .CssStyle("margin-bottom: 10px")
+                                .Required(true)
+                                .Label("验证码")
+                                .Margin("0 5 0 0")
+                                .BoxFlex(1)
+                                .ID("tbxCaptcha"),
+                            F.LinkButton()
+                                .CssStyle("margin-bottom: 10px")
+                                .MarginTop(-5)
+                                .OnClick(Url.Action("imgCaptcha_Click"))
+                                .EncodeText(false)
+                                .Width(100)
+                                .CssClass("imgcaptcha")
+                                .ID("imgCaptcha")
+                                .Text(ViewBag.ImgCaptchaText)
+                        ),
+                    F.Button()
+                        .Width(140)
+                        .CssClass("marginr")
+                        .RegionPosition(Position.Left)
+                        .Type(ButtonType.Reset)
+                        .Text("重置输入"),
+                    F.Button()
+                        .Width(140)
+                        .OnClick(Url.Action("btnLogin_Click"), "LoginSimpleForm")
+                        .ValidateTarget(Target.Top)
+                        .ValidateForms("LoginSimpleForm")
+                        .Type(ButtonType.Submit)
+                        .Text("登录系统")
+                ),
+            F.Image()
+                .ImageCssStyle("width: 101px;height: 147px;")
+                .CssStyle("float: right;width: 101px;height: 147px;margin: 30px 25px 20px 0")
+                .ImageUrl("~/res/images/login_logo.png")
+        )
+    )
+    <br>
+
+}
+
+

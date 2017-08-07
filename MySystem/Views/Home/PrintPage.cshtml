@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = ViewBag.TableName;
+    var F = @Html.F();
+}
+
+@section body {
+
+    @(
+        F.Grid()
+            .ShowHeader(false)
+            .ShowBorder(false)
+            .IsViewPort(true)
+            .ID("Grid1")
+            .Layout(LayoutType.Fit)
+            .AllowPaging(true)
+            .PageSize(30)
+            .Columns(ViewBag.Grid1Columns)
+            .DataSource(ViewBag.table)
+    )
+
+}
+
+@section script{
+    <script>
+        window.print();
+    </script>
+}

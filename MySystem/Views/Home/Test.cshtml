@@ -1,0 +1,26 @@
+﻿@using System.Data;
+
+@{
+    ViewBag.Title = "Test";
+    var F = @Html.F();
+}
+
+@section body {
+    <h2>Test</h2>
+
+    @(
+        F.Button()
+            .Text("测试count")
+            .OnClick(Url.Action("Button_OnClick"))
+    )
+
+    <ul>
+        @foreach (DataRow dr in (ViewData["dt"] as DataTable).Rows)
+        {
+            <li>
+                @dr["AttributeID"],@dr["AttributeName"],
+            </li>
+        }
+    </ul>
+
+}

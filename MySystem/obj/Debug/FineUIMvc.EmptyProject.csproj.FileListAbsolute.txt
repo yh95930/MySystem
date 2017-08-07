@@ -1,0 +1,93 @@
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.pdb
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\Microsoft.Web.Infrastructure.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\Newtonsoft.Json.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.Helpers.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.Mvc.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.Optimization.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.Razor.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Deployment.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.WebPages.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Razor.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\FineUIMvc.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.Helpers.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.Mvc.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.Optimization.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.Razor.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.WebPages.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Deployment.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Razor.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\Newtonsoft.Json.xml
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.csprojResolveAssemblyReference.cache
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.dll
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.pdb
+G:\temporaryFile\chromeDownload\test\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.dll.config
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.dll.config
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.pdb
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\Microsoft.Web.Infrastructure.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\Newtonsoft.Json.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.Helpers.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.Mvc.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.Optimization.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.Razor.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Deployment.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.WebPages.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Razor.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.Helpers.xml
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.Mvc.xml
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.Optimization.xml
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.Razor.xml
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.WebPages.xml
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Deployment.xml
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Razor.xml
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\bin\Newtonsoft.Json.xml
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.dll
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.pdb
+E:\visual studio projects\MyFineUIMVCProject\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.csprojResolveAssemblyReference.cache
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.dll.config
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.pdb
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\Microsoft.Web.Infrastructure.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\Newtonsoft.Json.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Helpers.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Mvc.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Optimization.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Razor.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Deployment.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Razor.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Helpers.xml
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Mvc.xml
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Optimization.xml
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Razor.xml
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.xml
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Deployment.xml
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Razor.xml
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\bin\Newtonsoft.Json.xml
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.dll
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.pdb
+E:\visual studio projects\MsgCollection\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.csprojResolveAssemblyReference.cache
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.dll.config
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\FineUIMvc.EmptyProject.pdb
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\Microsoft.Web.Infrastructure.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\Newtonsoft.Json.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Helpers.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Mvc.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Optimization.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Razor.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Deployment.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Razor.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Helpers.xml
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Mvc.xml
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Optimization.xml
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.Razor.xml
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.xml
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Deployment.xml
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\System.Web.WebPages.Razor.xml
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\bin\Newtonsoft.Json.xml
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.csprojResolveAssemblyReference.cache
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.dll
+F:\GitHub\MsgCollection\FineUIMvc.EmptyProject\obj\Debug\FineUIMvc.EmptyProject.pdb

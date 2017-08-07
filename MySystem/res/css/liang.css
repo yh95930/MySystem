@@ -1,0 +1,22 @@
+﻿html,body {
+    width: 100%;
+    height: 100%;
+}
+
+.btn-left {
+    display: block;
+    width: 100%;
+    padding: 6px 2px 5px 28px;
+    border-radius: 0;
+    text-align: left;
+}
+
+.LoginImg {
+    width: 101px;
+    height: 147px;
+    float: right;
+}
+
+.NodeRed {
+    color: palevioletred;
+}
