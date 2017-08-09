@@ -184,6 +184,7 @@
         .IsModal(true)
         .Target(Target.Parent)
         .WindowPosition(WindowPosition.GoldenSection)
+        //.EnableIFrame(true)
         .Width(800)
         .Height(600)
         .EnableResize(true)
@@ -198,7 +199,7 @@
                 .Items(
                     F.Button()
                         .Text("提交至数据库")
-                        .OnClick(Url.Action("")),
+                        .OnClick(Url.Action("judge")),
                     F.Button()
                         .Text("关闭")
                         .OnClick(Url.Action("BtnCloseDataImportWindow_Click"))
@@ -213,7 +214,6 @@
             .ID("Grid2")
             .Layout(LayoutType.Fit)
             .AllowPaging(true)
-            .AllowCellEditing(true)
             .PageSize(30)
             .Toolbars(
                 F.Toolbar()
@@ -273,23 +273,18 @@
                     .CssStyle(ViewBag.TableTbMidStele)
                     .Items(
                         F.FileUpload()
-                            .ID("Import")
+                            .ID("upload")
                             .CssStyle("padding-left: 5px")
                             .EmptyText("文件地址")
                             .LabelWidth(100)
-                            .Label("选择导入文件")                    
-                            .ButtonText("上传文件模板"),                       
-                        F.Button()
-                            .ID("UploadBtn")
-                            .Text("上传&校验")
-                            .OnClick(Url.Action(""))
+                            .Label("选择导入文件")
+                            .OnFileSelected(Url.Action("btnUpload_Click"), "upload")
 
                      )
                )
         )
     </div>
 
-    
     @*“增加新数据”的窗口内容*@
     <div id="AddNewDataContent">
         @(F.Form()
@@ -316,7 +311,7 @@
         .EnableResize(true)
         .EnableCollapse(false)
         .Title("增加新数据")
-        .ID("Window1")
+        .ID("AddDataWindow")
         .ContentEl("#AddNewDataContent")
         .Toolbars(
             F.Toolbar()

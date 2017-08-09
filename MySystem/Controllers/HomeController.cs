@@ -9,17 +9,18 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Threading;
+using System.Diagnostics;
 
 namespace FineUIMvc.EmptyProject.Controllers
 {
     public class HomeController : BaseController
     {
-        // ------------------------------------首页
-        // Index
+        #region Index()初始化
         public ActionResult Index()
         {
             // 若未登录，转至登录界面
             Session["SchoolId"] = "10611";
+            Session["SchoolName"] = "重庆大学";
             if (Session["SchoolId"] == null)
             {
                 return RedirectToAction("Login");
@@ -37,7 +38,6 @@ namespace FineUIMvc.EmptyProject.Controllers
             return View();
         }
 
-#region 树节点相关函数
         // loadTreeTableData:加载树控件数据
         private List<TreeNode> loadTreeTableData()
         {
@@ -81,7 +81,7 @@ namespace FineUIMvc.EmptyProject.Controllers
                 {
                     TreeNode node = new TreeNode();
                     // 如若该节点是“删除节点”，给该节点赋予id，并修改css
-                    if(row["Id"].ToString().IndexOf("Delete") > 0)
+                    if (row["Id"].ToString().IndexOf("Delete") > 0)
                     {
                         node.NodeID = row["Id"].ToString();
                         node.CssClass = "NodeRed";
@@ -145,16 +145,32 @@ namespace FineUIMvc.EmptyProject.Controllers
                 for (int i = 0; i < Convert.ToInt32(dt.Count); i++)
                 {
                     row = table.NewRow();
-                    row[0] = Convert.ToString(i + 1)+Convert.ToString(j);
+                    row[0] = Convert.ToString(i + 1) + Convert.ToString(j);
                     row[1] = dt[i][1].ToString();
                     row[2] = majorStatus[j][0].ToString();
-                    row[3] = "~/Home/TableCollection/"+dt[i][0].ToString()+"/"+majorStatus[j][0].ToString();
+                    row[3] = "~/Home/TableCollection/" + dt[i][0].ToString() + "/" + majorStatus[j][0].ToString();
                     table.Rows.Add(row);
                 }
             }
-            
+
             return table;
         }
+
+        //AddOtherColumn 为“添加专业”表格添加额外行
+        public List<GridColumn> AddOtherColumn(List<GridColumn> columns)
+        {
+            RenderField field1 = null;
+
+            field1 = new RenderField();
+            field1.HeaderText = "添加";
+            field1.RendererFunction = "renderAction3";
+            field1.MinWidth = 80;
+            field1.BoxFlex = 1;
+            columns.Add(field1);
+
+            return columns;
+        }
+        #endregion
 
         // TreeMenu_DelNodeClick 删除节点被点击
         [HttpPost]
@@ -163,21 +179,19 @@ namespace FineUIMvc.EmptyProject.Controllers
         {
             // 这里添加数据库操作
             nodeId = System.Text.RegularExpressions.Regex.Replace(nodeId, "Delete", "");
-            string sSQL = "DELETE FROM [dbo].[tableValues] WHERE SchoolID = '"+ Session["SchoolId"] + "' AND MajorID = '" + nodeId + "'";
-            if(SqlHelper.deleteDataSource(sSQL) == 0)
+            string sSQL = "DELETE FROM [dbo].[tableValues] WHERE SchoolID = '" + Session["SchoolId"] + "' AND MajorID = '" + nodeId + "'";
+            if (SqlHelper.deleteDataSource(sSQL) == 0)
             {
                 ShowNotify(nodeText + "失败");
                 return UIHelper.Result();
             }
             UIHelper.Tree("treeMenu").LoadData(loadTreeTableData());
 
-            ShowNotify(nodeText+ "成功");
+            ShowNotify(nodeText + "成功");
 
             return UIHelper.Result();
         }
-
-#endregion
-
+        #region Index()窗体功能
         //BtnAddMajorWindow_Click 显示添加专业窗体
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -218,20 +232,20 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             return UIHelper.Result();
         }
-
-        //AddOtherColumn 为“添加专业”表格添加额外行
-        public List<GridColumn> AddOtherColumn(List<GridColumn> columns)
+        //打开“导入”窗体
+        public ActionResult DataImport_Click()
         {
-            RenderField field1 = null;
+            UIHelper.Window("Window2").Show();
 
-            field1 = new RenderField();
-            field1.HeaderText = "添加";
-            field1.RendererFunction = "renderAction3";
-            field1.MinWidth = 80;
-            field1.BoxFlex = 1;
-            columns.Add(field1);
+            return UIHelper.Result();
+        }
+        //关闭“导入”窗体
+        public ActionResult BtnCloseDataImportWindow_Click()
+        {
+        
+            UIHelper.Window("Window2").Close();
 
-            return columns;
+            return UIHelper.Result();
         }
 
         //“添加专业”按钮被点击
@@ -273,29 +287,13 @@ namespace FineUIMvc.EmptyProject.Controllers
 
             return UIHelper.Result();
         }
-
-        //DataImport_Click导入按钮
-        public ActionResult DataImport_Click()
-        {
-            UIHelper.Window("Window2").Show();
-         
-
-            return UIHelper.Result();
-        }
-        //关闭导入窗口
-        public ActionResult BtnCloseDataImportWindow_Click()
-        {
-            UIHelper.Window("Window2").Hide();
-
-            return UIHelper.Result();
-        }
-
-        // ------------------------------------右侧子页面，TableCollection包含View()函数
-        //TableCollection 建立所有表格子界面的函数
+        #endregion
+        #region 表格子页面初始化
         public ActionResult TableCollection(int TableId, string MajorId)
         {
             ViewBag.TableMajorMsg = "'" + TableId.ToString() + "$" + MajorId + "'";
             ViewBag.MajorId = MajorId;
+            ViewBag.SchoolName = Session["SchoolName"];
 
             //初始化表名和Demo,dt中存取TableOriginID, TableName, TableDemo
             string sSQL = "SELECT TableOriginID, TableName, TableDemo FROM TableDefine WHERE TableID = " + TableId;
@@ -304,43 +302,43 @@ namespace FineUIMvc.EmptyProject.Controllers
             string tableDemo = dt.Table.Rows[0][2].ToString();
             ViewBag.noTableDemo = true;
             ViewBag.TableTbMidStyle = "border-top: none;border-left: none;border-right: none";
-            if ( tableDemo != "")
+            if (tableDemo != "")
             {
                 ViewBag.TableDemo = "填表提示：" + tableDemo;
                 ViewBag.noTableDemo = false;
                 ViewBag.TableTbMidStele = "border: none";
             }
-            
+
             // 初始化专业下拉列表
             sSQL = "SELECT majorID, majorName FROM baseMajor";
             dt = SqlHelper.getDataSource(sSQL);
             InitMajorDropList(dt);
 
             //初始化表格
-            sSQL = "exec [dbo].[GetTableDataList] " + TableId + ",'" + Session["SchoolId"] +"','" + MajorId + "'";
+            sSQL = "exec [dbo].[GetTableDataList] " + TableId + ",'" + Session["SchoolId"] + "','" + MajorId + "'";
             dt = SqlHelper.getDataSource(sSQL);
             sSQL = "SELECT    dbo.tableAttributeArrange.attributeID, dbo.tableAttributeDefine.attributeName," +
                     "dbo.tableAttributeArrange.attriDisplayOrder, dbo.tableAttributeDefine.attriFormat, " +
-                    "dbo.tableAttributeVerifyRule.attriVerifyRuleName, dbo.tableAttributeVerifyRule.attriVerifyRuleValues " +
+                    "dbo.tableAttributeVerifyRule.attriVerifyRuleName, dbo.tableAttributeVerifyRule.attriVerifyRuleValues, dbo.tableAttributeDefine.attriLengthLimit " +
                     "FROM      dbo.tableAttributeArrange LEFT JOIN " +
                     "dbo.tableAttributeDefine ON dbo.tableAttributeArrange.attributeID = dbo.tableAttributeDefine.attributeID LEFT JOIN " +
                     "dbo.tableAttributeVerifyRule ON dbo.tableAttributeDefine.attriVerifyRuleID = dbo.tableAttributeVerifyRule.attriVerifyRuleID " +
                     "WHERE dbo.tableAttributeArrange.tableID = " + TableId + " ORDER BY dbo.tableAttributeArrange.attriDisplayOrder";
             DataView VerifyDv = SqlHelper.getDataSource(sSQL);
             ViewBag.table = dt.ToTable();
-            ViewBag.Grid1Columns = InitGridColumns(dt.ToTable(),VerifyDv, MajorId).ToArray();
+            ViewBag.Grid1Columns = InitGridColumns(dt.ToTable(), VerifyDv, MajorId).ToArray();
 
             // 初始化字段下拉列表
             InitFieldDropList(dt);
 
             ViewBag.PrintPage = "/Home/PrintPage/" + TableId + "/" + MajorId;
 
-            
+
             ViewBag.AddDataFormItems = AutoGenerateForm(VerifyDv, MajorId, TableId.ToString()).ToArray();
 
             return View();
         }
-
+        
         // InitGridColumns 初始化表格函数 (只有一个DataTable参数)
         public List<GridColumn> InitGridColumns(DataTable ds)
         {
@@ -381,7 +379,7 @@ namespace FineUIMvc.EmptyProject.Controllers
             TextBox NewControl1 = null;         // 单文本
             TextArea NewControl2 = null;        // 文本框
             DatePicker NewControl3 = null;      // 日期
-            DropDownList NewControl4 = null;    // 单选框和其他字段
+            DropDownList NewControl4 = null;    // 单选框和其他字段和复选框
             NumberBox NewControl5 = null;       // 数值
             ListItem NewList = null;            // 单选下拉列表
             string RadioValue = null;           // 单选列表值
@@ -447,6 +445,25 @@ namespace FineUIMvc.EmptyProject.Controllers
                     }
                     field.Editor.Add(NewControl4);
                 }
+                else if (VerifyType == "复选框")
+                {
+                    NewControl4 = new DropDownList();
+                    NewControl4.EnableMultiSelect = true;
+                    while (VerifyValue != null)
+                    {
+                        // 截取校验值并赋值给RadioValue
+                        RadioValue = VerifyValue.IndexOf('$') >= 0 ? (VerifyValue.Substring(0, VerifyValue.IndexOf('$'))) : VerifyValue;
+                        // 创建新列表元素并加入下拉列表中
+                        NewList = new ListItem();
+                        NewList.Text = RadioValue;
+                        NewList.Value = RadioValue;
+                        NewControl4.Items.Add(NewList);
+
+                        // 移除校验值中已经确认的值
+                        VerifyValue = VerifyValue.IndexOf('$') >= 0 ? VerifyValue.Remove(0, VerifyValue.IndexOf("$") + 1) : null;
+                    }
+                    field.Editor.Add(NewControl4);
+                }
                 else if (VerifyType == "数值")
                 {
                     field.FieldType = FieldType.Int;
@@ -461,7 +478,7 @@ namespace FineUIMvc.EmptyProject.Controllers
                     DependedAttriId = Convert.ToInt32(VerifyValue.Substring(VerifyValue.IndexOf('$') + 1));
                     sSQL = "SELECT attriDisplayOrder FROM [dbo].[tableAttributeArrange] WHERE tableID = " + DependedTableId + " AND attributeID = " + DependedAttriId;
                     DisplayOrder = Convert.ToInt32(SqlHelper.getDataSource(sSQL)[0][0].ToString());
-                    
+
                     sSQL = "exec [dbo].[GetTableDataList] " + DependedTableId + ",'" + Session["SchoolId"] + "','" + MajorId + "'";
                     DependedTable = SqlHelper.getDataSource(sSQL);
                     for (j = 0; j < DependedTable.Count; j++)
@@ -481,28 +498,7 @@ namespace FineUIMvc.EmptyProject.Controllers
             return columns;
         }
 
-        #region “增加数据”按钮功能实现
-        // addData_Click “增加数据”按钮
-        public ActionResult addData_Click(string TableMsg)
-        {
-            //string MajorId = TableMsg.Substring(TableMsg.IndexOf('$') + 1);
-            //string TableId = TableMsg.Substring(0, TableMsg.IndexOf('$'));
-
-            //string sSQL = "SELECT    dbo.tableAttributeArrange.attributeID, dbo.tableAttributeDefine.attributeName," +
-            //        "dbo.tableAttributeArrange.attriDisplayOrder, dbo.tableAttributeDefine.attriFormat, " +
-            //        "dbo.tableAttributeVerifyRule.attriVerifyRuleName, dbo.tableAttributeVerifyRule.attriVerifyRuleValues " +
-            //        "FROM      dbo.tableAttributeArrange LEFT JOIN " +
-            //        "dbo.tableAttributeDefine ON dbo.tableAttributeArrange.attributeID = dbo.tableAttributeDefine.attributeID LEFT JOIN " +
-            //        "dbo.tableAttributeVerifyRule ON dbo.tableAttributeDefine.attriVerifyRuleID = dbo.tableAttributeVerifyRule.attriVerifyRuleID " +
-            //        "WHERE dbo.tableAttributeArrange.tableID = " + TableId + " ORDER BY dbo.tableAttributeArrange.attriDisplayOrder";
-            //DataView VerifyDv = SqlHelper.getDataSource(sSQL);
-            //AutoGenerateForm(VerifyDv, MajorId, TableId);
-
-            UIHelper.Window("Window1").Show();
-
-            return UIHelper.Result();
-        }
-
+        // 自动生成表单函数
         private List<ControlBase> AutoGenerateForm(DataView VerifyDv, string MajorId, string TableId)
         {
             List<ControlBase> items = new List<ControlBase>();
@@ -537,6 +533,8 @@ namespace FineUIMvc.EmptyProject.Controllers
                     Control1.Label = VerifyDv[i][1].ToString();
                     Control1.BoxFlex = 1;
                     Control1.ID = VerifyDv[i][0].ToString();
+                    if (Convert.ToInt32(VerifyDv[i][6]) != 0)
+                        Control1.MaxLength = Convert.ToInt32(VerifyDv[i][6]);
 
                     NewFormRow.Items.Add(Control1);
                 }
@@ -546,6 +544,8 @@ namespace FineUIMvc.EmptyProject.Controllers
                     Control2.Label = VerifyDv[i][1].ToString();
                     Control2.BoxFlex = 1;
                     Control2.ID = VerifyDv[i][0].ToString();
+                    if (Convert.ToInt32(VerifyDv[i][6]) != 0)
+                        Control2.MaxLength = Convert.ToInt32(VerifyDv[i][6]);
 
                     NewFormRow.Items.Add(Control2);
                 }
@@ -556,6 +556,8 @@ namespace FineUIMvc.EmptyProject.Controllers
                     Control3.BoxFlex = 1;
                     Control3.DateFormatString = "yyyyMMdd";
                     Control3.ID = VerifyDv[i][0].ToString();
+                    if (Convert.ToInt32(VerifyDv[i][6]) != 0)
+                        Control3.MaxLength = Convert.ToInt32(VerifyDv[i][6]);
 
                     NewFormRow.Items.Add(Control3);
                 }
@@ -565,6 +567,8 @@ namespace FineUIMvc.EmptyProject.Controllers
                     Control4.Label = VerifyDv[i][1].ToString();
                     Control4.BoxFlex = 1;
                     Control4.ID = VerifyDv[i][0].ToString();
+                    if (Convert.ToInt32(VerifyDv[i][6]) != 0)
+                        Control4.MaxLength = Convert.ToInt32(VerifyDv[i][6]);
 
                     while (VerifyValue != null)
                     {
@@ -588,6 +592,8 @@ namespace FineUIMvc.EmptyProject.Controllers
                     Control5.Label = VerifyDv[i][1].ToString();
                     Control5.BoxFlex = 1;
                     Control5.ID = VerifyDv[i][0].ToString();
+                    if (Convert.ToInt32(VerifyDv[i][6]) != 0)
+                        Control5.MaxLength = Convert.ToInt32(VerifyDv[i][6]);
 
                     NewFormRow.Items.Add(Control5);
                 }
@@ -597,6 +603,8 @@ namespace FineUIMvc.EmptyProject.Controllers
                     Control4.Label = VerifyDv[i][1].ToString();
                     Control4.BoxFlex = 1;
                     Control4.ID = VerifyDv[i][0].ToString();
+                    if (Convert.ToInt32(VerifyDv[i][6]) != 0)
+                        Control4.MaxLength = Convert.ToInt32(VerifyDv[i][6]);
 
                     DependedTableId = Convert.ToInt32(VerifyValue.Substring(0, VerifyValue.IndexOf('$')));
                     DependedAttriId = Convert.ToInt32(VerifyValue.Substring(VerifyValue.IndexOf('$') + 1));
@@ -623,6 +631,8 @@ namespace FineUIMvc.EmptyProject.Controllers
                     Control4.BoxFlex = 1;
                     Control4.EnableMultiSelect = true;
                     Control4.ID = VerifyDv[i][0].ToString();
+                    if (Convert.ToInt32(VerifyDv[i][6]) != 0)
+                        Control4.MaxLength = Convert.ToInt32(VerifyDv[i][6]);
 
                     while (VerifyValue != null)
                     {
@@ -655,14 +665,11 @@ namespace FineUIMvc.EmptyProject.Controllers
         // CreatNewRow()在表单中创建新的一行
         private FormRow CreatNewRow()
         {
-            FineUIMvc.FormRow NewRow = new FineUIMvc.FormRow();
+            FormRow NewRow = new FormRow();
             NewRow.Layout = LayoutType.HBox;
 
             return NewRow;
         }
-
-        #endregion
-
 
         // InitMajorDropList初始化专业下拉列表
         public void InitMajorDropList(DataView dv)
@@ -708,36 +715,75 @@ namespace FineUIMvc.EmptyProject.Controllers
             ViewBag.BindFieldField = "Field";
             ViewBag.FieldDropDownListDataSource = table;
         }
+        #endregion
+        #region 添加数据
+        // addData_Click “增加数据”按钮
+        public ActionResult addData_Click()
+        {
+            UIHelper.Window("AddDataWindow").Show();
 
+            return UIHelper.Result();
+        }
+
+        // CloseAddDataWindow 关闭ID为“AddDataWindow”的窗口
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CloseAddDataWindow()
+        {
+            UIHelper.Window("AddDataWindow").Close();
+
+            return UIHelper.Result();
+        }
+
+        // btnAddData_Click “添加数据”窗口中的“添加”按钮
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult btnAddData_Click(FormCollection values, string TableMsg)
+        {
+            string MajorId = getMajorId(TableMsg);
+            string TableId = getTableId(TableMsg);
+            string sSQL = "SELECT DISTINCT MAX(RowID) FROM [dbo].[tableValues] WHERE TableID = " + TableId;
+            int RowId = Convert.ToInt32(SqlHelper.getDataSource(sSQL)[0][0]) + 1;
+            JArray fields = new JArray();
+
+            sSQL = "SELECT dbo.tableAttributeDefine.attributeID, dbo.tableAttributeDefine.attributeName, dbo.tableAttributeArrange.attriDisplayOrder " +
+                    "FROM dbo.tableAttributeArrange INNER JOIN " +
+                    "dbo.tableAttributeDefine ON dbo.tableAttributeArrange.attributeID = dbo.tableAttributeDefine.attributeID " +
+                    "WHERE dbo.tableAttributeArrange.tableID = " + TableId +
+                    "ORDER BY dbo.tableAttributeArrange.attriDisplayOrder ";
+            DataView dt = SqlHelper.getDataSource(sSQL);
+            sSQL = "INSERT INTO [dbo].[tableValues] (SchoolID, MajorID, TableID, RowID, AttributeID, AttributeValue) VALUES ";
+            for (int i = 0; i < dt.Count; i++)
+            {
+                sSQL += string.Format("('{0}','{1}',{2},{3},{4},'{5}'),", new object[] {
+                            Session["SchoolId"], MajorId, TableId, RowId, dt[i][0].ToString(), values[Convert.ToInt32(dt[i][2])-1].ToString()
+                        });
+            }
+            for (int j = 0; j < dt.Count; j++)
+            {
+                fields.Add(dt[j][1].ToString());
+            }
+            SqlHelper.insertDataSource(sSQL.Substring(0, sSQL.Length - 1));
+            sSQL = "exec [dbo].[GetTableDataList] " + TableId + ",'" + Session["SchoolId"] + "','" + MajorId + "'";
+            UIHelper.Grid("Grid1").DataSource(SqlHelper.getDataSource(sSQL).ToTable(), fields);
+            UIHelper.Window("AddDataWindow").Close();
+
+
+            return UIHelper.Result();
+        }
+        #endregion
         // BtnQuery_Click 查询按钮
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult BtnQuery_Click(string QueryField, string QueryValue)
+        public ActionResult BtnQuery_Click(string QueryField, string QueryValue, string TableMsg)
         {
+            string MajorId = getMajorId(TableMsg);
+            string TableId = getTableId(TableMsg);
+
             if (QueryValue == "")
                 return UIHelper.Result();
-            //string sSQL = ""
-
-            return UIHelper.Result();
-        }
-
-        // CloseWindow1 关闭ID为“Window1”的窗口
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CloseWindow1()
-        {
-            UIHelper.Window("Window1").Close();
-
-            return UIHelper.Result();
-        }
-
-        // btnAddData_Click 添加数据中的“添加”按钮
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult btnAddData_Click(FormCollection values)
-        {
-            
-            
+            //string sSQL = "exec [dbo].[GetTableDataList] " + TableId + ",'" + Session["SchoolId"] + "','" + MajorId + "'" + 
+            //    ",'WHERE " + QueryField + " = \"" + QueryValue + "\"'";
 
             return UIHelper.Result();
         }
@@ -747,11 +793,14 @@ namespace FineUIMvc.EmptyProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult btnSaveData_Click(JArray Grid1_fields, JArray Grid1_modifiedData, string TableMsg)
         {
-            string MajorId = TableMsg.Substring(TableMsg.IndexOf('$') + 1);
-            string TableId = TableMsg.Substring(0, TableMsg.IndexOf('$'));
+            string MajorId = getMajorId(TableMsg);
+            string TableId = getTableId(TableMsg);
+            Dictionary<string, object> rowDict = null;
+            string rowId = null;
 
             string sSQL = "exec [dbo].[GetTableDataList] " + TableId + ",'" + Session["SchoolId"] + "','" + MajorId + "'";
             DataTable source = SqlHelper.getDataSource(sSQL).ToTable();
+            sSQL = null;
 
             foreach (JObject modifiedRow in Grid1_modifiedData)
             {
@@ -760,8 +809,19 @@ namespace FineUIMvc.EmptyProject.Controllers
 
                 if (status == "modified")
                 {
-                    UpdateDataRow(modifiedRow, TableIndex, source);
+                    rowDict = modifiedRow.Value<JObject>("values").ToObject<Dictionary<string, object>>();
+                    rowId = source.Rows[TableIndex][0].ToString();
+                    foreach (string key in rowDict.Keys)
+                    {
+                        source.Rows[TableIndex][key] = rowDict[key];
+                        sSQL += "UPDATE [dbo].[tableValues] SET [AttributeValue] = '" + rowDict[key] + "' " +
+                            "WHERE SchoolID = '" + Session["SchoolId"] + "' AND MajorID = '" + MajorId +
+                            "' AND TableID = " + TableId + " AND RowID = " + rowId + " AND AttributeID = " +
+                            "(SELECT AttributeID FROM [dbo].[tableAttributeDefine] WHERE " +
+                            "attributeName = '" + key + "');";
+                    }
                 }
+                SqlHelper.updateDataSource(sSQL);
 
             }
 
@@ -772,26 +832,132 @@ namespace FineUIMvc.EmptyProject.Controllers
             return UIHelper.Result();
         }
 
-        private void UpdateDataRow(JObject modifiedRow, int TableIndex, DataTable source)
+        private string getMajorId(string TableMsg) { return TableMsg.Substring(TableMsg.IndexOf('$') + 1); }
+        private string getTableId(string TableMsg) { return TableMsg.Substring(0, TableMsg.IndexOf('$')); }
+        #region 导入文件
+        private static int flag;
+        // btnUpload_Click 保存按钮
+        public ActionResult btnUpload_Click(HttpPostedFileBase upload, FormCollection values) 
         {
-            Dictionary<string, object> rowDict = modifiedRow.Value<JObject>("values").ToObject<Dictionary<string, object>>();
-            DataRow rowData = source.Rows[TableIndex];
             
-            for(int i = 0; i < source.Columns.Count; i ++)
+            //FileUpload upload = UIHelper.FileUpload("upload").Source;
+            string path = uploadFile(); 
+            //获取拓展名
+            string Extension = Path.GetExtension(path);
+            if (Extension == ".xls" || Extension == ".xlsx")
             {
-                UpdateDataRow(source.Columns[i].ToString(), rowDict, rowData);
+                if (path != "")
+                {
+                    ExcelOperation excel = new ExcelOperation(Server.MapPath("") + "\\res\\uploadFiles\\", upload.FileName);
+                    DataTable dataTable = excel.loadDataFromExcel();
+                    TableVerification tableVf = new TableVerification("10611", "080501", 3, dataTable);
+                    if (tableVf.verifyArchitecture() && tableVf.verifyPrimaryKey() && tableVf.verifyData().Count == 0)
+                    {
+                        ShowNotify("校验成功！");
+                        flag = 1;
+                        
+                    }    
+                    //insertData("10611", "080501", 3, excel.loadDataFromExcel());
+                    //bool b = tableVf.verifyArchitecture();        // 校验表结构
+                    //bool b2 = tableVf.verifyPrimaryKey();         // 校验主键
+                    //ArrayList list = tableVf.verifyData();        // 校验是否在数据库中含有校验值
+                    else
+                    {
+                        // 清空文件上传组件
+                        UIHelper.FileUpload("upload").Reset();
+                        ShowNotify("校验失败！");
+                        flag = 0;
+                    } 
+                    
+                }                      
             }
+            else
+            {
+                UIHelper.FileUpload("upload").Reset();
+                ShowNotify("文件类型错误！");
+            }
+            
+            return UIHelper.Result();
         }
 
-        private void UpdateDataRow(string columnName, Dictionary<string, object> rowDict, DataRow rowData)
+        // uploadFile
+        private string uploadFile()
         {
-            // columnName是列名，rowDict[columnName]是列值，可以通过函数外面的source.Rows[TableIndex][0].ToStrubg()获取RowID
-            if (rowDict.ContainsKey(columnName))
+            FileUpload upload = UIHelper.FileUpload("upload").Source;
+            string result = "";
+            if (upload.HasFile)
             {
-                rowData[columnName] = rowDict[columnName];
+                try
+                {
+                    //  保存文件
+                    upload.SaveAs(Server.MapPath("") + "\\res\\uploadFiles\\" + upload.FileName);
+                    result = Server.MapPath("") + "\\res\\uploadFiles\\" + upload.FileName;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
             }
+            return result;
+        }
+        //“提交至数据库”按钮判断
+        public ActionResult judge()
+        {
+            if(flag == 1)
+            {
+                ShowNotify("提交成功！");
+                //FileUpload upload = UIHelper.FileUpload("upload").Source;
+                //ExcelOperation excel = new ExcelOperation(Server.MapPath("") + "\\res\\uploadFiles\\", upload.FileName);
+                //insertData("10611", "080501", 3, excel.loadDataFromExcel());
+            }          
+            else
+                ShowNotify("提交失败！");
+            return UIHelper.Result();
         }
 
+        // insertData
+        private bool insertData(string schoolID, string majorID, string tableName, DataTable table)
+        {
+            //string sql = string.Format("select tableID from tableDefine where tableName = '{0}'", tableName);
+            //DataView dv = SqlHelper.getDataSource(sql);
+            //if (dv == null)
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return insertData(schoolID, majorID, Convert.ToInt32(dv[0][0]), table);
+            //}
+            return false; 
+        }
+
+        // 提交至数据库
+        private bool insertData(string schoolID, string majorID, int tableID, DataTable table)
+        {
+            //string sql = "insert into tableValues values";
+            //for (int i = 1; i < table.Rows.Count; i++)
+            //{
+            //    for (int j = 0; j < table.Columns.Count; j++)
+            //    {
+            //        sql += string.Format("('{0}','{1}',{2},{3},{4},'{5}'),",
+            //                                    new Object[] {
+            //                                        schoolID,
+            //                                        majorID,
+            //                                        tableID,
+            //                                        i,
+            //                                        "(select AttributeID from tableAttributeDefine where AttributeName = '" + table.Rows[0][j] + "')",
+            //                                        table.Rows[i][j]
+            //                                    }
+            //                                  );
+            //    }
+            //}
+            //int result = SqlHelper.insertDataSource(sql.Substring(0, sql.Length - 1));
+
+            //return result == -1 ? false : true;
+            return false;
+        }
+        #endregion
         // ------------------------------------登录界面
         // Login
         public ActionResult Login()
@@ -874,7 +1040,7 @@ namespace FineUIMvc.EmptyProject.Controllers
                     ShowNotify("用户名或密码错误！", MessageBoxIcon.Error);
                 }
             }
-               
+
 
             return UIHelper.Result();
         }
