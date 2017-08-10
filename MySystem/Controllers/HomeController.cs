@@ -15,6 +15,7 @@ namespace FineUIMvc.EmptyProject.Controllers
 {
     public class HomeController : BaseController
     {
+        private static int flag;
         #region Index()初始化
         public ActionResult Index()
         {
@@ -235,15 +236,15 @@ namespace FineUIMvc.EmptyProject.Controllers
         //打开“导入”窗体
         public ActionResult DataImport_Click()
         {
-            UIHelper.Window("Window2").Show();
+            UIHelper.Window("DataImportWindow").Show();
 
             return UIHelper.Result();
         }
         //关闭“导入”窗体
         public ActionResult BtnCloseDataImportWindow_Click()
         {
-        
-            UIHelper.Window("Window2").Close();
+
+            UIHelper.Window("DataImportWindow").Close();
 
             return UIHelper.Result();
         }
@@ -835,11 +836,10 @@ namespace FineUIMvc.EmptyProject.Controllers
         private string getMajorId(string TableMsg) { return TableMsg.Substring(TableMsg.IndexOf('$') + 1); }
         private string getTableId(string TableMsg) { return TableMsg.Substring(0, TableMsg.IndexOf('$')); }
         #region 导入文件
-        private static int flag;
+        
         // btnUpload_Click 保存按钮
         public ActionResult btnUpload_Click(HttpPostedFileBase upload, FormCollection values) 
         {
-            
             //FileUpload upload = UIHelper.FileUpload("upload").Source;
             string path = uploadFile(); 
             //获取拓展名
@@ -902,7 +902,7 @@ namespace FineUIMvc.EmptyProject.Controllers
             return result;
         }
         //“提交至数据库”按钮判断
-        public ActionResult judge()
+        public ActionResult SubmitToDb()
         {
             if(flag == 1)
             {

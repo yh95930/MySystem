@@ -108,12 +108,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Models\CaptchaImage.cs" />
+    <Compile Include="Models\ExcelOperation.cs" />
     <Compile Include="Models\SqlHelper.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\TableVerification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +191,8 @@
     <Folder Include="LoginCaptcha\" />
     <Folder Include="res\js\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\ExcelOperation\" />
+    <Folder Include="Views\TableVerification\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

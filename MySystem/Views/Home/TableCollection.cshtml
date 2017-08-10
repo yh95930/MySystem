@@ -141,7 +141,6 @@
                                         F.Button()
                                             .IconFont(IconFont.ArrowCircleOLeft)
                                             .MarginRight(10)
-                                            .ID("ImportBtn")
                                             .OnClick(Url.Action("DataImport_Click"))
                                             .Text("导入"),
                                         F.Button()
@@ -190,7 +189,7 @@
         .EnableResize(true)
         .EnableCollapse(false)
         .Title("增加新数据")
-        .ID("Window2")
+        .ID("DataImportWindow")
         .ContentEl("#DateImportContent")
         .Toolbars(
             F.Toolbar()
@@ -199,7 +198,7 @@
                 .Items(
                     F.Button()
                         .Text("提交至数据库")
-                        .OnClick(Url.Action("judge")),
+                        .OnClick(Url.Action("SubmitToDb")),
                     F.Button()
                         .Text("关闭")
                         .OnClick(Url.Action("BtnCloseDataImportWindow_Click"))
@@ -211,10 +210,8 @@
         @(F.Grid()
             .ShowHeader(false)
             .ShowBorder(false)
-            .ID("Grid2")
+            .ID("ImportGrid")
             .Layout(LayoutType.Fit)
-            .AllowPaging(true)
-            .PageSize(30)
             .Toolbars(
                 F.Toolbar()
                     .Position(ToolbarPosition.Top)
@@ -222,7 +219,7 @@
                     .Layout(LayoutType.Fit)
                     .Items(
                         F.SimpleForm()
-                            .ID("GridForm")
+                            .ID("ImportGridForm")
                             .BodyPadding(5)
                             .ShowBorder(false)
                             .ShowHeader(false)
@@ -233,7 +230,7 @@
                                     .Layout(LayoutType.HBox)
                                     .Items(
                                         F.DropDownList()
-                                            .ID("TableList")
+                                            //.ID("TableList")
                                             .CssStyle("padding-right: 10px")
                                             .LabelWidth(70)
                                             .BoxFlex(1)
@@ -245,7 +242,7 @@
                                                     .Value("value1")
                                             ),
                                         F.DropDownList()
-                                            .ID("SchoolList")
+                                            //.ID("SchoolList")
                                             .CssStyle("padding-right: 10px")
                                             .LabelWidth(70)
                                             .BoxFlex(1)
@@ -257,7 +254,7 @@
                                                     .Value("value1")
                                             ),
                                         F.DropDownList()
-                                            .ID("MajorList")
+                                            //.ID("MajorList")
                                             .LabelWidth(70)
                                             .BoxFlex(1)
                                             .Label("当前专业")
@@ -299,16 +296,18 @@
         )
     </div>
 
+    @*“添加数据”窗口*@
     @(F.Window()
         .Hidden(true)
         .BodyPadding(10)
         .AutoScroll(true)
         .IsModal(true)
-        .Target(Target.Parent)
         .WindowPosition(WindowPosition.GoldenSection)
         .Width(800)
         .Height(500)
         .EnableResize(true)
+        .EnableMaximize(true)
+        .EnableDrag(true)
         .EnableCollapse(false)
         .Title("增加新数据")
         .ID("AddDataWindow")
